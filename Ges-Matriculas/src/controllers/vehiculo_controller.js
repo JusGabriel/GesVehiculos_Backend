@@ -4,7 +4,6 @@ import Vehiculo from "../models/Vehiculo.js";
 const crearVehiculo = async (req, res) => {
   try {
     const {
-      id,
       marcha,
       modelo,
       anio_fabricacion,
@@ -15,34 +14,26 @@ const crearVehiculo = async (req, res) => {
       descripcion,
     } = req.body;
 
-    // Validación de campos obligatorios
+    // Validar campos obligatorios
     if (
-      !id ||
       !marcha ||
       !modelo ||
       !anio_fabricacion ||
       !placa ||
       !color ||
       !tipo_vehiculo ||
-      !kilometraje
+      kilometraje == null
     ) {
-      return res.status(400).json({ msg: "Todos los campos son obligatorios" });
+      return res.status(400).json({ msg: "Todos los campos obligatorios deben estar presentes" });
     }
 
-    // Verificar si ya existe vehículo con la misma placa o id
+    // Verificar si placa ya existe
     const existePlaca = await Vehiculo.findOne({ placa });
     if (existePlaca) {
       return res.status(400).json({ msg: "La placa ya está registrada" });
     }
 
-    const existeId = await Vehiculo.findOne({ id });
-    if (existeId) {
-      return res.status(400).json({ msg: "El id del vehículo ya está registrado" });
-    }
-
-    // Crear nuevo vehículo
     const nuevoVehiculo = new Vehiculo({
-      id,
       marcha,
       modelo,
       anio_fabricacion,
@@ -61,7 +52,7 @@ const crearVehiculo = async (req, res) => {
   }
 };
 
-// Listar todos los vehículos
+// Listar Vehículos
 const listarVehiculos = async (req, res) => {
   try {
     const vehiculos = await Vehiculo.find().sort({ createdAt: -1 });
@@ -72,11 +63,11 @@ const listarVehiculos = async (req, res) => {
   }
 };
 
-// Obtener vehículo por id (campo personalizado)
+// Obtener Vehículo por _id
 const obtenerVehiculo = async (req, res) => {
   try {
     const { id } = req.params;
-    const vehiculo = await Vehiculo.findOne({ id });
+    const vehiculo = await Vehiculo.findById(id);
     if (!vehiculo)
       return res.status(404).json({ msg: "Vehículo no encontrado" });
 
@@ -87,15 +78,15 @@ const obtenerVehiculo = async (req, res) => {
   }
 };
 
-// Actualizar vehículo por id
+// Actualizar Vehículo por _id
 const actualizarVehiculo = async (req, res) => {
   try {
     const { id } = req.params;
-    const vehiculo = await Vehiculo.findOne({ id });
+    const vehiculo = await Vehiculo.findById(id);
     if (!vehiculo)
       return res.status(404).json({ msg: "Vehículo no encontrado" });
 
-    // Validar si quieren actualizar placa o id a otro que ya exista
+    // Validar si quieren actualizar la placa y ya existe otra con esa placa
     if (req.body.placa && req.body.placa !== vehiculo.placa) {
       const placaExiste = await Vehiculo.findOne({ placa: req.body.placa });
       if (placaExiste) {
@@ -103,14 +94,7 @@ const actualizarVehiculo = async (req, res) => {
       }
     }
 
-    if (req.body.id && req.body.id !== id) {
-      const idExiste = await Vehiculo.findOne({ id: req.body.id });
-      if (idExiste) {
-        return res.status(400).json({ msg: "El id ya está registrado en otro vehículo" });
-      }
-    }
-
-    // Actualizar campos (solo los que envíen)
+    // Actualizar campos permitidos
     Object.assign(vehiculo, req.body);
     await vehiculo.save();
 
@@ -121,11 +105,11 @@ const actualizarVehiculo = async (req, res) => {
   }
 };
 
-// Eliminar vehículo por id
+// Eliminar Vehículo por _id
 const eliminarVehiculo = async (req, res) => {
   try {
     const { id } = req.params;
-    const vehiculo = await Vehiculo.findOne({ id });
+    const vehiculo = await Vehiculo.findById(id);
     if (!vehiculo)
       return res.status(404).json({ msg: "Vehículo no encontrado" });
 
