@@ -3,14 +3,13 @@ import { Schema, model } from "mongoose";
 // Definir el nuevo esquema
 const vehiculoSchema = new Schema({
   id: {
-    type: Number,        // Tipo entero
-    required: true,
-    unique: true,        // Aseguramos que el ID sea único
+    type: Number, // Se seguirá usando, pero lo generamos nosotros
+    unique: true,
   },
-  marcha: {
+  marca: {
     type: String,
     required: true,
-    trim: true,          // Eliminamos espacios en blanco al principio y al final
+    trim: true,
   },
   modelo: {
     type: String,
@@ -18,13 +17,13 @@ const vehiculoSchema = new Schema({
     trim: true,
   },
   anio_fabricacion: {
-    type: Number,        // Año de fabricación como número
+    type: Number,
     required: true,
   },
   placa: {
     type: String,
     required: true,
-    unique: true,        // Aseguramos que la placa sea única
+    unique: true,
     trim: true,
   },
   color: {
@@ -38,17 +37,15 @@ const vehiculoSchema = new Schema({
     trim: true,
   },
   kilometraje: {
-    type: Number,        // Tipo de número para el kilometraje
+    type: Number,
     required: true,
   },
   descripcion: {
     type: String,
-    trim: true,          // Eliminamos espacios innecesarios
+    trim: true,
   },
 }, {
-  timestamps: true       // Automáticamente agrega las fechas de creación y actualización
+  timestamps: true
 });
 
-// Crear y exportar el modelo
 export default model("Vehiculo", vehiculoSchema);
-
