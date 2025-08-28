@@ -26,7 +26,7 @@ app.use(express.json())
 app.use("/api/usuarios", routerUsuarios);
 app.use("/api/clientes", routerClientes);
 app.use("/api/vehiculos", routerVehiculos);
-app.use("/api/matriculas", routerReservas);
+app.use("/api/reservas", routerReservas);
 
 // Rutas 
 app.get('/',(req,res)=>{
@@ -34,4 +34,5 @@ app.get('/',(req,res)=>{
 })
 
 // Exportar la instancia de express por medio de app
+
 export default  app
