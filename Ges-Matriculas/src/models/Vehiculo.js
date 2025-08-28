@@ -1,12 +1,7 @@
 import { Schema, model } from "mongoose";
 
-// Definir el nuevo esquema
 const vehiculoSchema = new Schema({
-  id: {
-    type: Number, // Se seguirá usando, pero lo generamos nosotros
-    unique: true,
-  },
-  marca: {
+  marcha: {
     type: String,
     required: true,
     trim: true,
@@ -43,9 +38,7 @@ const vehiculoSchema = new Schema({
   descripcion: {
     type: String,
     trim: true,
-  },
-}, {
-  timestamps: true
-});
+  }
+}, { timestamps: true });
 
 export default model("Vehiculo", vehiculoSchema);
