@@ -7,7 +7,7 @@ const vehiculoSchema = new Schema({
     required: true,
     unique: true,        // Aseguramos que el ID sea único
   },
-  marca: {
+  marcha: {
     type: String,
     required: true,
     trim: true,          // Eliminamos espacios en blanco al principio y al final
@@ -51,3 +51,4 @@ const vehiculoSchema = new Schema({
 
 // Crear y exportar el modelo
 export default model("Vehiculo", vehiculoSchema);
+
