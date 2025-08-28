@@ -42,7 +42,7 @@ const actualizarCliente = async (req, res) => {
     const cliente = await Cliente.findById(id);
     if (!cliente) return res.status(404).json({ msg: "Cliente no encontrado" });
 
-    Object.assign(cliente, req.body); // Actualiza todos los campos recibidos
+    Object.assign(cliente, req.body); 
     await cliente.save();
     res.status(200).json(cliente);
   } catch (error) {
@@ -55,7 +55,7 @@ const actualizarCliente = async (req, res) => {
 const eliminarCliente = async (req, res) => {
   try {
     const { id } = req.params;
-    const cliente = await cliente.findById(id);
+    const cliente = await Cliente.findById(id);
     if (!cliente) return res.status(404).json({ msg: "Cliente no encontrado" });
 
     await cliente.deleteOne();
